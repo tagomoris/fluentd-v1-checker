@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+if ARGV.size != 1
+  puts "usage: fluentd-v1-checker CONF_PATH"
+  exit 1
+end
+
+require 'fluentd/v1/checker'
+Fluentd::V1::Checker.execute(ARGV.first)
