@@ -1,9 +1,20 @@
 #!/usr/bin/env ruby
 
+require 'fluentd/v1/checker'
+require "optparse"
+
+opt = OptionParser.new
+
+v1conf_path = nil
+opt.on('--with-v1-conf V1_CONF_PATH', "configuration file path with v1 syntax to be checked whether same or not") {|v| v1conf_path = v }
+opt.version = Fluentd::V1::Checker::VERSION
+opt.banner = "Usage: fluentd-v1-checker [options] CONF_PATH"
+
+opt.parse!(ARGV)
+
 if ARGV.size != 1
-  puts "usage: fluentd-v1-checker CONF_PATH"
+  puts opt.help
   exit 1
 end
 
-require 'fluentd/v1/checker'
-Fluentd::V1::Checker.execute(ARGV.first)
+Fluentd::V1::Checker.execute(ARGV.first, v1conf_path)

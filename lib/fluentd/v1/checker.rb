@@ -8,16 +8,25 @@ require "diffy"
 module Fluentd
   module V1
     module Checker
-      def self.execute(path)
+      def self.parse_classic(path)
         str = File.read(path)
         fname = File.basename(path)
         dirname = File.dirname(path)
+        Fluent::Config::Parser.parse(str, fname, dirname)
+      end
 
-        conf_v1 = Fluent::Config::V1Parser.parse(str, fname, dirname, Kernel.binding)
-        conf_classic = Fluent::Config::Parser.parse(str, fname, dirname)
+      def self.parse_v1(path)
+        str = File.read(path)
+        fname = File.basename(path)
+        dirname = File.dirname(path)
+        Fluent::Config::V1Parser.parse(str, fname, dirname, Kernel.binding)
+      end
 
-        diff = Diffy::Diff.new(conf_classic.to_s.rstrip, conf_v1.to_s.rstrip).to_s(:color)
-        if diff.empty?
+      def self.execute(path, v1conf_path)
+        diff = Diffy::Diff.new( parse_classic(path).to_s.rstrip, parse_v1(v1conf_path || path).to_s.rstrip ).to_s(:color)
+        if diff.strip.empty? && v1conf_path
+          puts "just same."
+        elsif diff.strip.empty?
           puts "v1 acceptable."
         else
           puts diff
