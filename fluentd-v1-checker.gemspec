@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Fluentd::V1::Checker::VERSION
   spec.authors       = ["TAGOMORI Satoshi"]
   spec.email         = ["tagomoris@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{Checker utility for Fluentd v1 configuration syntax}
+  spec.description   = %q{Command to check Fluentd configuration files are valid as v1 configuration, or to check difference between v0 and v1 configuration files}
+  spec.homepage      = "https://github.com/tagomoris/fluentd-v1-checker"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")

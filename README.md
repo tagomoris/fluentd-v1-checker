@@ -1,26 +1,31 @@
-# Fluentd::V1::Checker
+# fluentd-v1-checker
 
-TODO: Write a gem description
+Checker utility for Fluentd v1 configuration syntax.
+
+* to check Fluentd configuration files are valid as both of v0 (classic) and v1 syntax
+* to check difference between v0 and v1 configuration files
 
 ## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'fluentd-v1-checker'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
 
     $ gem install fluentd-v1-checker
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+Usage: fluentd-v1-checker [options] CONF_PATH
+        --with-v1-conf V1_CONF_PATH  configuration file path with v1 syntax to be checked whether same or not
+```
+
+To check classic configuration file is valid as v1:
+
+    $ fluentd-v1-checker my_fluentd.conf
+
+To check v1 configuration file is actually same with classic configuration file:
+
+    $ fluentd-v1-checker --with-v1-conf my_v1_fluentd.conf my_classic_fluentd.conf
+
+If any differences exist, this utility shows entire parse result and diff, and exits with code 1.
+If no difference exists, it exits with code 0 without any output.
 
 ## Contributing
 
