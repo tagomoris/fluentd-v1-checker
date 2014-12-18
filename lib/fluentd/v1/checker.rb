@@ -23,13 +23,17 @@ module Fluentd
       end
 
       def self.execute(path, v1conf_path)
-        diff = Diffy::Diff.new( parse_classic(path).to_s.rstrip, parse_v1(v1conf_path || path).to_s.rstrip ).to_s(:color)
+        v0 = parse_classic(path).to_s.rstrip + "\n"
+        v1 = parse_v1(v1conf_path || path).to_s.rstrip + "\n"
+        diff = Diffy::Diff.new(v0, v1, :include_diff_info => true ).to_s(:color)
         if diff.strip.empty? && v1conf_path
-          puts "just same."
+          # ok
         elsif diff.strip.empty?
-          puts "v1 acceptable."
+          # ok
         else
+          diff = diff.sub(/--- .*$/){ "--- CLASSIC PARSE" }.sub(/\+\+\+ .*$/){ "+++ V1 PARSE" }
           puts diff
+          exit 1
         end
       end
     end
